@@ -6,25 +6,37 @@
 #    By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/10 11:30:01 by jroux-fo          #+#    #+#              #
-#    Updated: 2022/01/10 11:34:10 by jroux-fo         ###   ########.fr        #
+#    Updated: 2022/01/10 17:15:44 by jroux-fo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS_FILES =		
+CLIENT_SRCS_FILES =		a definir
 
-SRCS_BONUS_FILES =	
+SERVER_SRCS_FILES =		a definir
 
-OBJS_FILES =		${SRCS:.c=.o}
+SRCS_BONUS_FILES =	insh
+
+CLIENT_OBJS_FILES =		${CLIENT_SRCS:.c=.o}
+
+SERVER_OBJS_FILES =		${SERVER_SRCS:.c=.o}
 
 OBJ_BONUS	=		${SRCS_BONUS:.c=.o}
 
-HEADER_FILES		=	-I$(HEADER_PATH)
+CLIENT_HEADER_FILES		=	-I$(CLIENT_HEADER_PATH)
 
-HEADER_PATH		= 		/header
+SERVER_HEADER_FILES		=	-I$(SERVER_HEADER_PATH)
 
-HEADER_NAME		=	minitalk.h
+CLIENT_HEADER_PATH		= 		/header_client
 
-SRCS_PATH =		/srcs
+SERVER_HEADER_PATH		=		/header_server
+
+CLIENT_HEADER_NAME		=	client_minitalk.h
+
+SERVER_HEADER_NAME		=	server_minitalk.h
+
+CLIENT_SRCS_PATH =		/srcs_client
+
+SERVER_SRCS_PATH =		/srcs_server
 
 
 CC		=	gcc
@@ -33,19 +45,25 @@ FLAGS		=	-Wall -Wextra -Werror
 
 RM		=	rm -rf
 
-HEADER		=	minitalk.h
+CLIENT_HEADER		=	client_minitalk.h
+
+SERVER_HEADER		=	server_minitalk.h
 
 NAME		=	a definir
 
-HEADER		=	$(addprefix $(HEADER_PATH)/, $(HEADER_NAME))
+CLIENT_HEADER		=	$(addprefix $(CLEINT_HEADER_PATH)/, $(CLIENT_HEADER_NAME))
 
-SRCS		=	$(addprefix $(SRCS_PATH)/, $(SRCS_FILES))
+SERVER_HEADER		=	$(addprefix $(SERVER_HEADER_PATH)/, $(SERVER_HEADER_NAME))
+
+CLIENT_SRCS		=	$(addprefix $(CLIENT_SRCS_PATH)/, $(CLIENT_SRCS_FILES))
+
+SERVER_SRCS		=	$(addprefix $(SERVER_SRCS_PATH)/, $(SERVER_SRCS_FILES))
 
 SRCS_BONUS		=	$(addprefix $(SRCS_PATH)/, $(SRCS_BONUS_FILES))
 
 
 
-all		:	$(NAME)
+all		:	client server
 
 
 $(NAME)		:	$(OBJS_FILES) $(HEADER)
