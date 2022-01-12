@@ -13,6 +13,6 @@
 #ifndef SERVER_MINITALK_H
 # define SERVER_MINITALK_H
 #include <unistd.h>
-//#include "../ft_printf/libftprintf.a"
+#include "../ft_printf/ft_printf.h"
 
 #endif

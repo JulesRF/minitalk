@@ -13,9 +13,9 @@
 #ifndef CLIENT_MINITALK_H
 # define CLIENT_MINITALK_H
 #include <unistd.h>
-//#include "../ft_printf/libftprintf.a"
+#include <signal.h>
+#include "../ft_printf/ft_printf.h"
 
-int	ft_strlen(const char *str);
 int	ft_atoi(const char *nptr);
 
 #endif

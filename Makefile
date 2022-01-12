@@ -10,11 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-CLIENT_SRCS_FILES =		a definir
+CLIENT_SRCS_FILES	=		a definir
 
-SERVER_SRCS_FILES =		a definir
+SERVER_SRCS_FILES	=		a definir
 
-SRCS_BONUS_FILES =	insh
+FT_PRINTF			=	ft_printf/libftprinft.a
+
+#SRCS_BONUS_FILES	=	insh
 
 CLIENT_OBJS_FILES =		${CLIENT_SRCS:.c=.o}
 
@@ -49,9 +51,11 @@ CLIENT_HEADER		=	client_minitalk.h
 
 SERVER_HEADER		=	server_minitalk.h
 
-NAME		=	a definir
+CLIENT_NAME		=	prgm_client
 
-CLIENT_HEADER		=	$(addprefix $(CLEINT_HEADER_PATH)/, $(CLIENT_HEADER_NAME))
+SERVER_NAME		=	prgm_server
+
+CLIENT_HEADER		=	$(addprefix $(CLIENT_HEADER_PATH)/, $(CLIENT_HEADER_NAME))
 
 SERVER_HEADER		=	$(addprefix $(SERVER_HEADER_PATH)/, $(SERVER_HEADER_NAME))
 
@@ -66,22 +70,21 @@ SRCS_BONUS		=	$(addprefix $(SRCS_PATH)/, $(SRCS_BONUS_FILES))
 all		:	client server
 
 
-$(NAME)		:	$(OBJS_FILES) $(HEADER)
-			ar rc $(NAME) $(OBJS_FILES)
+client	:	$(CLIENT_OBJS_FILES)
+			$(CC) $(FLAGS) -o $(CLIENT_NAME) $(CLIENT_SRCS_FILES) $(FT_PRINTF)
+
+server	:	$(SERVER_OBJS_FILES)
+			$(CC) $(FLAGS) -o $(SERVER_NAME) $(SERVER_SRCS_FILES) $(FT_PRINTF)
 
 %.o		:	%.c
 			$(CC) $(FLAGS) $(HEADER_FILES) -c $< -o $@
 
-
-
-bonus		:		$(OBJ_BONUS) $(OBJ) $(INC)
-				ar rc $(NAME) $(OBJ_BONUS)
 clean:
-			${RM} ${OBJS_FILES} ${OBJ_BONUS}
+			${RM} ${CLIENT_OBJS_FILES} ${SERVER_OBJS_FILES} ${OBJ_BONUS}
 
 fclean:		clean
-			${RM} ${NAME}
+			${RM} ${CLIENT_NAME} ${SERVER_NAME}
 
 re :		fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY:		client server all clean fclean re bonus

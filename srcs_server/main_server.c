@@ -10,17 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minitalk.h"
-#include <stdio.h>
+#include "../header_server/server_minitalk.h"
 
 int main(void)
 {
 	int	pid;
 	
 	pid = getpid();
-	while (1)
-	{
-		printf("Le PID du server est : %d\n", pid);
-		sleep(2);
-	}
+	ft_printf("Le PID du server est : %d\n", pid);
+	pause();
 }
