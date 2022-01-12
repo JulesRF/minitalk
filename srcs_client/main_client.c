@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 13:22:46 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/01/10 16:26:41 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:20:45 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,41 @@ int	ft_check_pid(char *pid)
 	return (ft_atoi(pid));
 }
 
-//void	ft_test(int sig, int pid)
-//{
-//	if (signum == SIGUSR1)
-//		kill(pid, SIGUSR1);
-//	else
-//		kill(pid, SIGUSR2);
-//}
-
-int	main(int argc, char **argv)
+int ft_error(int argc, char *prepid)
 {
-	int	pid;
+	int	checkpid;
 	
 	if (argc != 3)
 	{
 		ft_printf("Erreur : Veuillez entrer 2 arguments\n");
 		return (1);
 	}
-	pid = ft_check_pid(argv[1]);
-	if (pid == 0)
+	checkpid = ft_check_pid(prepid);
+	if (checkpid == 0)
 	{
 		ft_printf("Erreur : Veuillez entrer un PID correct\n");
 		return (1);
 	}
-	kill(pid, SIGUSR1);	
-	kill(pid, SIGUSR2);
+	return (0);
+}
+
+int	ft_pid(int to_do, int tmp)
+{
+	static int	pid;
+	
+	if (to_do == 1)
+		pid = tmp;
+	if (to_do == 0)
+		return (pid);
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	int	pid;
+	
+	if (ft_error(argc, argv[1]))
+		return (0);
+	pid = ft_atoi(argv[1]);
+	ft_pid(1, pid);
 }

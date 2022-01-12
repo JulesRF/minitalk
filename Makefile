@@ -6,15 +6,16 @@
 #    By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/10 11:30:01 by jroux-fo          #+#    #+#              #
-#    Updated: 2022/01/10 17:15:44 by jroux-fo         ###   ########.fr        #
+#    Updated: 2022/01/12 15:18:03 by jroux-fo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CLIENT_SRCS_FILES	=		a definir
+CLIENT_SRCS_FILES	=		main_client.c \
+							client_utils.c
 
-SERVER_SRCS_FILES	=		a definir
+SERVER_SRCS_FILES	=		main_server.c
 
-FT_PRINTF			=	ft_printf/libftprinft.a
+FT_PRINTF			=	ft_printf/libftprintf.a
 
 #SRCS_BONUS_FILES	=	insh
 
@@ -28,17 +29,17 @@ CLIENT_HEADER_FILES		=	-I$(CLIENT_HEADER_PATH)
 
 SERVER_HEADER_FILES		=	-I$(SERVER_HEADER_PATH)
 
-CLIENT_HEADER_PATH		= 		/header_client
+CLIENT_HEADER_PATH		= 		header_client
 
-SERVER_HEADER_PATH		=		/header_server
+SERVER_HEADER_PATH		=		header_server
 
 CLIENT_HEADER_NAME		=	client_minitalk.h
 
 SERVER_HEADER_NAME		=	server_minitalk.h
 
-CLIENT_SRCS_PATH =		/srcs_client
+CLIENT_SRCS_PATH =		srcs_client
 
-SERVER_SRCS_PATH =		/srcs_server
+SERVER_SRCS_PATH =		srcs_server
 
 
 CC		=	gcc
@@ -51,9 +52,9 @@ CLIENT_HEADER		=	client_minitalk.h
 
 SERVER_HEADER		=	server_minitalk.h
 
-CLIENT_NAME		=	prgm_client
+CLIENT_NAME		=	client
 
-SERVER_NAME		=	prgm_server
+SERVER_NAME		=	server
 
 CLIENT_HEADER		=	$(addprefix $(CLIENT_HEADER_PATH)/, $(CLIENT_HEADER_NAME))
 
@@ -70,11 +71,11 @@ SRCS_BONUS		=	$(addprefix $(SRCS_PATH)/, $(SRCS_BONUS_FILES))
 all		:	client server
 
 
-client	:	$(CLIENT_OBJS_FILES)
-			$(CC) $(FLAGS) -o $(CLIENT_NAME) $(CLIENT_SRCS_FILES) $(FT_PRINTF)
+client	:	#$(CLIENT_OBJS_FILES)
+			$(CC) $(FLAGS) -o $(CLIENT_NAME) $(CLIENT_SRCS) $(FT_PRINTF)
 
-server	:	$(SERVER_OBJS_FILES)
-			$(CC) $(FLAGS) -o $(SERVER_NAME) $(SERVER_SRCS_FILES) $(FT_PRINTF)
+server	:	#$(SERVER_OBJS_FILES)
+			$(CC) $(FLAGS) -o $(SERVER_NAME) $(SERVER_SRCS) $(FT_PRINTF)
 
 %.o		:	%.c
 			$(CC) $(FLAGS) $(HEADER_FILES) -c $< -o $@
