@@ -6,11 +6,13 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 13:22:46 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/01/12 16:20:45 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/01/13 13:37:39 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_client/client_minitalk.h"
+
+#include <stdio.h> ////////////////////////////////////
 
 int	ft_check_pid(char *pid)
 {
@@ -33,13 +35,13 @@ int ft_error(int argc, char *prepid)
 	
 	if (argc != 3)
 	{
-		ft_printf("Erreur : Veuillez entrer 2 arguments\n");
+		printf("Erreur : Veuillez entrer 2 arguments\n");
 		return (1);
 	}
 	checkpid = ft_check_pid(prepid);
 	if (checkpid == 0)
 	{
-		ft_printf("Erreur : Veuillez entrer un PID correct\n");
+		printf("Erreur : Veuillez entrer un PID correct\n");
 		return (1);
 	}
 	return (0);
