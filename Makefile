@@ -6,86 +6,74 @@
 #    By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/10 11:30:01 by jroux-fo          #+#    #+#              #
-#    Updated: 2022/01/12 15:18:03 by jroux-fo         ###   ########.fr        #
+#    Updated: 2022/01/20 15:31:17 by jroux-fo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CLIENT_SRCS_FILES	=		main_client.c \
-							client_utils.c
+NAME_CLIENT = client
 
-SERVER_SRCS_FILES	=		main_server.c
+NAME_SERVER = server
+
+PRINTF = libftprintf.a
+
+PRINTF_PATH = ft_printf
+
+CLIENT_SRCS_FILES	=		main_client.c \
+							client_utils.c \
+
+SERVER_SRCS_FILES	=		main_server.c \
+							server_utils.c \
 
 FT_PRINTF			=	ft_printf/libftprintf.a
 
-#SRCS_BONUS_FILES	=	insh
+FLAGS = -Wall -Werror -Wextra# -g3 -fsanitize=address
+#CLIENT_SRC_FILES = $(addprefix srcs_client/,$(CLIENT_SRCS_FILES))
 
-CLIENT_OBJS_FILES =		${CLIENT_SRCS:.c=.o}
+INCLUDES = header
 
-SERVER_OBJS_FILES =		${SERVER_SRCS:.c=.o}
+PATH_CLIENT = srcs_client
 
-OBJ_BONUS	=		${SRCS_BONUS:.c=.o}
+PATH_SERVER = srcs_server
 
-CLIENT_HEADER_FILES		=	-I$(CLIENT_HEADER_PATH)
+OBJ_DIR = obj
 
-SERVER_HEADER_FILES		=	-I$(SERVER_HEADER_PATH)
+OBJ_S = $(addprefix $(OBJ_DIR)/,$(SERVER_SRCS_FILES:.c=.o))
+OBJ_C = $(addprefix $(OBJ_DIR)/,$(CLIENT_SRCS_FILES:.c=.o))
 
-CLIENT_HEADER_PATH		= 		header_client
+all: $(NAME_CLIENT) $(NAME_SERVER)
 
-SERVER_HEADER_PATH		=		header_server
+$(PRINTF): 
+	@printf "Compiling $@ ...\n"
+	@(cd $(PRINTF_PATH) && $(MAKE))
+	@cp $(PRINTF_PATH)/$(PRINTF) .
 
-CLIENT_HEADER_NAME		=	client_minitalk.h
+$(OBJ_DIR)/%.o: $(PATH_CLIENT)/%.c
+	@mkdir -p $(OBJ_DIR)
+	@printf "Compiling $< ...\n"
+	@gcc $(FLAGS) -I $(INCLUDES) -c $< -o $@
 
-SERVER_HEADER_NAME		=	server_minitalk.h
+$(NAME_CLIENT): $(OBJ_C) $(PRINTF)
+	@gcc $(FLAGS) -I $(INCLUDES) $(OBJ_C) $(FT_PRINTF) -o $(NAME_CLIENT)
+	@printf "Executable $@ created !\n"
+	
+$(OBJ_DIR)/%.o: $(PATH_SERVER)/%.c
+	@mkdir -p $(OBJ_DIR)
+	@printf "Compiling $< ...\n"
+	@gcc $(FLAGS) -I $(INCLUDES) -c $< -o $@
 
-CLIENT_SRCS_PATH =		srcs_client
-
-SERVER_SRCS_PATH =		srcs_server
-
-
-CC		=	gcc
-
-FLAGS		=	-Wall -Wextra -Werror
-
-RM		=	rm -rf
-
-CLIENT_HEADER		=	client_minitalk.h
-
-SERVER_HEADER		=	server_minitalk.h
-
-CLIENT_NAME		=	client
-
-SERVER_NAME		=	server
-
-CLIENT_HEADER		=	$(addprefix $(CLIENT_HEADER_PATH)/, $(CLIENT_HEADER_NAME))
-
-SERVER_HEADER		=	$(addprefix $(SERVER_HEADER_PATH)/, $(SERVER_HEADER_NAME))
-
-CLIENT_SRCS		=	$(addprefix $(CLIENT_SRCS_PATH)/, $(CLIENT_SRCS_FILES))
-
-SERVER_SRCS		=	$(addprefix $(SERVER_SRCS_PATH)/, $(SERVER_SRCS_FILES))
-
-SRCS_BONUS		=	$(addprefix $(SRCS_PATH)/, $(SRCS_BONUS_FILES))
-
-
-
-all		:	client server
-
-
-client	:	#$(CLIENT_OBJS_FILES)
-			$(CC) $(FLAGS) -o $(CLIENT_NAME) $(CLIENT_SRCS) $(FT_PRINTF)
-
-server	:	#$(SERVER_OBJS_FILES)
-			$(CC) $(FLAGS) -o $(SERVER_NAME) $(SERVER_SRCS) $(FT_PRINTF)
-
-%.o		:	%.c
-			$(CC) $(FLAGS) $(HEADER_FILES) -c $< -o $@
+$(NAME_SERVER): $(OBJ_S) $(PRINTF)
+	@gcc $(FLAGS) -I $(INCLUDES) $(OBJ_S) $(FT_PRINTF) -o $(NAME_SERVER)
+	@printf "Executable $@ created !\n"
 
 clean:
-			${RM} ${CLIENT_OBJS_FILES} ${SERVER_OBJS_FILES} ${OBJ_BONUS}
+	@printf "Deleting objects\n"
+	@rm -rf $(OBJ_DIR)
 
-fclean:		clean
-			${RM} ${CLIENT_NAME} ${SERVER_NAME}
+fclean: clean
+	@printf "Deleting executables\n"
+	@rm -rf $(NAME_CLIENT) $(NAME_SERVER) $(PRINTF)
+	@cd $(PRINTF_PATH) && $(MAKE) $@
 
-re :		fclean all
+re: fclean all
 
-.PHONY:		client server all clean fclean re bonus
+.PHONY:		all clean fclean re

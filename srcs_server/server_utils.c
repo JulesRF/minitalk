@@ -10,20 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header_server/server_minitalk.h"
+#include "server_minitalk.h"
 
-int	ft_putchar(char c)
+void	ft_simple_putchar(char c)
 {
 	write(1, &c, 1);
-	return (1);
 }
 
-int	ft_strlen(const char *s)
+void	ft_single_char(char bit)
 {
-	int	i;
+	static int				i = 7;
+	static unsigned char	c = 0;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (i >= 0)
+	{
+		if (bit == 1)
+			c = c | (1 << i);
+		i--;
+	}
+	if (i < 0)
+	{
+		i = 7;
+		ft_simple_putchar(c);
+		c = 0;
+	}
 }

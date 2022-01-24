@@ -6,64 +6,51 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 13:22:46 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/01/13 13:37:39 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/01/20 14:49:23 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header_client/client_minitalk.h"
+#include "client_minitalk.h"
 
-#include <stdio.h> ////////////////////////////////////
+void	ft_sendchar(unsigned char c, int pid)
+{
+	int				i;
+	unsigned char	tmp;
 
-int	ft_check_pid(char *pid)
+	i = 0;
+	tmp = 0;
+	while (i <= 7)
+	{
+		tmp = c << i;
+		tmp = tmp >> 7;
+		if ((0 | tmp) == 0)
+			kill(pid, SIGUSR1);
+		else if ((0 | tmp) == 1)
+			kill(pid, SIGUSR2);
+		i++;
+		usleep(150);
+	}
+}
+
+void	ft_sender(unsigned char *str, int pid)
 {
 	int	i;
 
 	i = 0;
-	while (pid[i])
+	while (str[i])
 	{
-		if (pid[i] <= '9' && pid[i] >= '0')
-			i++;
-		else
-			return (0);
+		ft_sendchar(str[i], pid);
+		i++;
 	}
-	return (ft_atoi(pid));
-}
-
-int ft_error(int argc, char *prepid)
-{
-	int	checkpid;
-	
-	if (argc != 3)
-	{
-		printf("Erreur : Veuillez entrer 2 arguments\n");
-		return (1);
-	}
-	checkpid = ft_check_pid(prepid);
-	if (checkpid == 0)
-	{
-		printf("Erreur : Veuillez entrer un PID correct\n");
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_pid(int to_do, int tmp)
-{
-	static int	pid;
-	
-	if (to_do == 1)
-		pid = tmp;
-	if (to_do == 0)
-		return (pid);
-	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	int	pid;
-	
+
 	if (ft_error(argc, argv[1]))
-		return (0);
+		return (1);
 	pid = ft_atoi(argv[1]);
-	ft_pid(1, pid);
+	ft_sender((unsigned char *)argv[2], pid);
+	return (0);
 }
